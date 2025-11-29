@@ -25,6 +25,19 @@ export default function SignIn(){
   const [ password, setPassword ] = useState('');
 
   function handleLogin(){
+    if(email === '' || password === '') {
+      console.log("❌ Campos vazios:", { email, password });
+      alert('Por favor, preencha email e senha!');
+      return;
+    }
+
+    if(password.length < 6) {
+      console.log("❌ Senha muito curta");
+      alert('A senha deve ter no mínimo 6 caracteres!');
+      return;
+    }
+
+    console.log("✅ Iniciando login com email:", email);
     signIn(email, password);
   }
   

@@ -17,22 +17,23 @@ function AuthProvider({ children }){
       const storageUser = await AsyncStorage.getItem('@finToken');
 
       if(storageUser) {
-        const response = await api.get('/me', {
-          headers: {
-            'Authorization': 'Bearer ${storageUser}'
-          }
-        })
-        .catch(() =>{
-          setUser(null);
-        })
+        try {
+          const response = await api.get('/me', {
+            headers: {
+              'Authorization': `Bearer ${storageUser}`
+            }
+          })
 
-        api.defaults.headers['Authorization'] = `Bearer ${storageUser}`;
-        setUser(response.data);
-        setLoadingAuth(false);
+          api.defaults.headers['Authorization'] = `Bearer ${storageUser}`;
+          setUser(response.data);
+        } catch(error) {
+          setUser(null);
+        }
       }
-      loadStorage();
+      setLoadingAuth(false);
     }
-  })
+    loadStorage();
+  }, [])
 
   async function signOut(){
     await AsyncStorage.clear().then(() => {
@@ -44,18 +45,36 @@ function AuthProvider({ children }){
     setLoadingAuth(true);
 
     try{
+      console.log("🚀 Iniciando POST em /users com dados:", { name: nome, email, password: '***' });
+      
       const response = await api.post('/users', {
        name: nome,
        password: password,
        email: email,
       })
+      
+      console.log("✅ Status da resposta:", response.status);
+      console.log("✅ Usuário cadastrado com sucesso:", response.data);
+      
       setLoadingAuth(false);
-
-      navigation.goBack();
-
+      
+      // Adicionar um delay antes de goBack para garantir que tudo foi processado
+      setTimeout(() => {
+        console.log("🔙 Voltando para tela anterior...");
+        navigation.goBack();
+      }, 1000);
 
     }catch(err){
-      console.log("ERRO AO CADASTRAR", err);
+      console.log("❌ ERRO AO CADASTRAR - Detalhes completos:", {
+        mensagem: err.message,
+        tipo_erro: err.code,
+        resposta_status: err.response?.status,
+        resposta_dados: err.response?.data,
+        url_requisicao: err.config?.url,
+        dados_enviados: err.config?.data,
+        headers_requisicao: err.config?.headers
+      });
+      alert(`❌ Erro ao cadastrar: ${err.response?.data?.error || err.message}`);
       setLoadingAuth(false);
     }
   }
@@ -64,12 +83,26 @@ function AuthProvider({ children }){
     setLoadingAuth(true);
 
     try{
+      console.log("🚀 Iniciando login com email:", email);
+      
       const response = await api.post('/login', {
         email: email,
         password: password
       })
 
+      console.log("✅ Login bem-sucedido! Status:", response.status);
+      console.log("✅ Dados recebidos:", { 
+        id: response.data.id, 
+        name: response.data.name, 
+        email: response.data.email,
+        tem_token: !!response.data.token
+      });
+
       const { id, name, token } = response.data;
+
+      if (!token) {
+        throw new Error("Token não recebido do servidor");
+      }
 
       await AsyncStorage.setItem('@finToken', token); 
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
@@ -77,13 +110,21 @@ function AuthProvider({ children }){
       setUser({
         id,
         name,
-        email,
+        email: email,
       })
 
+      console.log("✅ Usuário salvo no contexto");
       setLoadingAuth(false);
 
     }catch(err){
-      console.log("ERRO AO LOGAR ", err);
+      console.log("❌ ERRO AO LOGAR - Detalhes:", {
+        mensagem: err.message,
+        status: err.response?.status,
+        erro_resposta: err.response?.data,
+        url: err.config?.url,
+        email_enviado: err.config?.data
+      });
+      alert(`❌ Erro ao logar: ${err.response?.data?.error || err.message}`);
       setLoadingAuth(false);
     }
 

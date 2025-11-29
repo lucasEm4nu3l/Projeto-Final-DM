@@ -22,8 +22,19 @@ export default function SignUp(){
   const [password, setPassword] = useState('');
 
   function handleSignUp(){
-    if(nome === '' || email === '' || password === '') return;
+    if(nome === '' || email === '' || password === '') {
+      console.log("❌ Campos vazios detectados:", { nome, email, password });
+      alert('Por favor, preencha todos os campos!');
+      return;
+    }
 
+    if(password.length < 6) {
+      console.log("❌ Senha muito curta");
+      alert('A senha deve ter no mínimo 6 caracteres!');
+      return;
+    }
+
+    console.log("✅ Iniciando cadastro com:", { nome, email });
     signUp(email, password, nome);
   }
 
