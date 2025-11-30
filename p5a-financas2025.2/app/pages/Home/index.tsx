@@ -1,5 +1,6 @@
 import React from 'react';
-import { Menu, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
+import Header from '../../components/Header/Header';
 import { SummaryCard } from '../../components/SummaryData/SummaryCard';
 import { TransactionItem } from '../../components/Transacao/Transaction';
 import { SummaryCardData, Transaction } from '../../../types';
@@ -18,29 +19,63 @@ const transactionsData: Transaction[] = [
 ];
 
 export default function Home(): React.ReactElement {
+  const styles = {
+    container: {
+      backgroundColor: '#fff',
+      minHeight: '100vh',
+      paddingBottom: '40px',
+      fontFamily: 'sans-serif',
+      color: '#1e293b',
+    } as React.CSSProperties,
+    carousel: {
+      display: 'flex',
+      overflowX: 'auto',
+      paddingLeft: '24px',
+      paddingRight: '24px',
+      paddingBottom: '32px',
+      gap: '12px',
+    } as React.CSSProperties,
+    sectionHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      marginBottom: '16px',
+    } as React.CSSProperties,
+    sectionTitle: {
+      fontSize: '16px',
+      fontWeight: 600,
+      color: '#0f172a',
+      margin: 0,
+    } as React.CSSProperties,
+    main: {
+      paddingLeft: '24px',
+      paddingRight: '24px',
+    } as React.CSSProperties,
+    list: {
+      marginTop: '8px',
+    } as React.CSSProperties,
+  };
+
   return (
-    <div className="bg-white min-h-screen font-sans text-slate-800 pb-10">
+    <div style={styles.container}>
       {/* HEADER */}
-      <header className="p-6 flex items-center gap-4">
-        <Menu className="w-8 h-8 text-slate-700" />
-        <h1 className="text-xl font-medium text-slate-900">Minhas movimentações</h1>
-      </header>
+      <Header />
 
       {/* CARROSSEL (SCROLL HORIZONTAL) */}
-      <section className="flex overflow-x-auto px-6 pb-8 snap-x snap-mandatory scrollbar-hide">
+      <section style={styles.carousel}>
         {summaryData.map((card) => (
           <SummaryCard key={card.id} data={card} />
         ))}
       </section>
 
       {/* LISTA DE MOVIMENTAÇÕES */}
-      <main className="px-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Calendar className="w-5 h-5 text-slate-900" />
-          <h2 className="font-semibold text-slate-900">Ultimas movimentações</h2>
+      <main style={styles.main}>
+        <div style={styles.sectionHeader}>
+          <Calendar style={{ width: '20px', height: '20px', color: '#0f172a' }} />
+          <h2 style={styles.sectionTitle}>Últimas movimentações</h2>
         </div>
 
-        <div className="flex flex-col">
+        <div style={styles.list}>
           {transactionsData.map((transaction) => (
             <TransactionItem key={transaction.id} item={transaction} />
           ))}
@@ -49,3 +84,4 @@ export default function Home(): React.ReactElement {
     </div>
   );
 }
+

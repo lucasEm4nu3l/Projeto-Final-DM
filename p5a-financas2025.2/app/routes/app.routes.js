@@ -7,7 +7,11 @@ const AppDrawer = createDrawerNavigator();
 
 function AppRoutes(){
   return(
-    <AppDrawer.Navigator>
+    <AppDrawer.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <AppDrawer.Screen
         name="Home"
         component={Home}

@@ -2,8 +2,6 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { Menu, Calendar } from 'lucide-react';
-import { SummaryCardData, Transaction } from './types';
 import Routes from './app/routes';
 import AuthProvider from './app/context/auth';
 

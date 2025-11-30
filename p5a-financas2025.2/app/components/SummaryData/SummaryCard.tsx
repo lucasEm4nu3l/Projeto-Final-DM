@@ -16,17 +16,41 @@ export const SummaryCard: React.FC<Props> = ({ data }) => {
 
   const getBgColor = () => {
     switch (data.variant) {
-      case 'blue': return 'bg-blue-700';
-      case 'green': return 'bg-green-500';
-      case 'red': return 'bg-red-500';
-      default: return 'bg-gray-500';
+      case 'blue': return '#1e40af';
+      case 'green': return '#10b981';
+      case 'red': return '#ef4444';
+      default: return '#6b7280';
     }
   };
 
+  const styles = {
+    container: {
+      minWidth: '300px',
+      height: '160px',
+      backgroundColor: getBgColor(),
+      borderRadius: '24px',
+      padding: '24px',
+      color: '#fff',
+      marginRight: '16px',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+      display: 'flex',
+      flexDirection: 'column' as const,
+      justifyContent: 'space-between',
+    },
+    title: {
+      fontWeight: 500,
+      fontSize: '18px',
+    },
+    value: {
+      fontSize: '32px',
+      fontWeight: 'bold',
+    },
+  };
+
   return (
-    <div className={`min-w-[300px] h-40 ${getBgColor()} rounded-3xl p-6 text-white mr-4 shadow-lg flex flex-col justify-between snap-center`}>
-      <span className="font-medium text-lg">{data.title}</span>
-      <span className="text-4xl font-bold">
+    <div style={styles.container}>
+      <span style={styles.title}>{data.title}</span>
+      <span style={styles.value}>
         {formatCurrency(data.value)}
       </span>
     </div>

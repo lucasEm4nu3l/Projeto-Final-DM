@@ -10,16 +10,51 @@ interface Props {
 export const TransactionItem: React.FC<Props> = ({ item }) => {
   const isExpense = item.type === 'expense';
 
+  const styles = {
+    wrapper: {
+      backgroundColor: '#f8fafc',
+      padding: '16px',
+      borderRadius: '12px',
+      marginBottom: '12px',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      border: '1px solid #f1f5f9',
+      display: 'flex',
+      flexDirection: 'column' as const,
+      gap: '8px',
+    },
+    badge: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      width: 'fit-content',
+      paddingLeft: '12px',
+      paddingRight: '12px',
+      paddingTop: '4px',
+      paddingBottom: '4px',
+      borderRadius: '8px',
+      color: '#fff',
+      fontSize: '14px',
+      fontWeight: 'bold',
+      backgroundColor: isExpense ? '#ef4444' : '#10b981',
+      textTransform: 'capitalize' as const,
+    },
+    value: {
+      fontSize: '24px',
+      fontWeight: 600,
+      color: '#1e293b',
+    },
+  };
+
   return (
-    <div className= "bg-slate-50 p-4 rounded-xl mb-3 shadow-sm border border-slate-100 flex flex-col gap-2">
+    <div style={styles.wrapper}>
       {/* Etiqueta (ex: despesa/receita) */}
-      <div className={`flex items-center gap-2 w-max px-3 py-1 rounded-md text-white text-sm font-bold ${isExpense ? 'bg-red-500' : 'bg-green-500'}`}>
+      <div style={styles.badge}>
         {isExpense ? <ArrowDownCircle size={16} /> : <ArrowUpCircle size={16} />}
-        <span className="capitalize">{item.label}</span>
+        <span>{item.label}</span>
       </div>
 
       {/* Valor */}
-      <span className='text-2xl font-semibold text-slate-700'>
+      <span style={styles.value}>
         {formatCurrency(item.value)}
       </span>
     </div>
