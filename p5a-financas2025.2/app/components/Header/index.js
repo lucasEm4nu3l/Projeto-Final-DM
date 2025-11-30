@@ -1,6 +1,6 @@
 import { Icon } from '@react-native-vector-icons/feather';
 import { useNavigation } from '@react-navigation/native';
-import { Container, Title, ButtonMenu } from '../../pages/SignIn/styles'
+import { Container, Title, ButtonMenu } from '../../pages/signIn/styles'
 
 
 export default function Header({ title }){

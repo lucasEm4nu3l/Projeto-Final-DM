@@ -3,8 +3,6 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Menu, Calendar } from 'lucide-react';
-import { SummaryCard } from './components/SummaryCard';
-import { TransactionItem } from './components/TransactionItem';
 import { SummaryCardData, Transaction } from './types';
 import Routes from './app/routes';
 import AuthProvider from './app/context/auth';
