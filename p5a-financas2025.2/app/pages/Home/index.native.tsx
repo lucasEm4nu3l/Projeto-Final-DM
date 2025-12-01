@@ -20,7 +20,6 @@ const transactionsData: Transaction[] = [
 export default function Home(): React.ReactElement {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Minhas movimentações</Text>
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.carousel}>
         {summaryData.map((card) => (
